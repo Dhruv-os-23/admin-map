@@ -7,6 +7,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import axios from 'axios';
 import '../styles/Location.css'
 
+
 const Location = () => {
 
     const [markers, setMarkers] = useState([]);
@@ -47,7 +48,8 @@ const Location = () => {
     const limitedMarkers = markers.slice(0, 10);
 
     return (
-        <>
+        <div>
+      
             <MapContainer center={[17.321, 78.328]} zoom={13} style={{ height: '100vh', width: '100%' }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -82,7 +84,8 @@ const Location = () => {
                     ))}
                 </MarkerClusterGroup>
             </MapContainer>
-        </>
+            </div>
+        
     );
 }
 
