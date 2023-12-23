@@ -1,6 +1,17 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useTable } from 'react-table';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Box,
+  Button
+} from '@chakra-ui/react';
+import Navbar from '../components/Navbar';
 
 const Sos = () => {
   const [sosData, setSosData] = useState([]);
@@ -19,46 +30,22 @@ const Sos = () => {
     getData();
   }, []);
 
+  const goToLocation = (latitude, longitude) => {
+    window.open(`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`, '_blank');
+  };
+
   const columns = useMemo(() => [
     { Header: 'Email', accessor: 'email' },
-    { Header: 'Latitude', accessor: 'lastLat', Cell: ({ value }) => value.toFixed(4) }, // Format latitude
-    { Header: 'Longitude', accessor: 'lastLong', Cell: ({ value }) => value.toFixed(4) }, // Format longitude
+    { Header: 'Latitude', accessor: 'lastLat', Cell: ({ value }) => value.toFixed(4) },
+    { Header: 'Longitude', accessor: 'lastLong', Cell: ({ value }) => value.toFixed(4) },
+    {
+      Header: 'Action', accessor: 'action', Cell: ({ row }) => (
+        <Button colorScheme="blue" onClick={() => goToLocation(row.original.lastLat, row.original.lastLong)}>
+          Go to Location
+        </Button>
+      )
+    },
   ], []);
-
-  const pageStyle = {
-    backgroundColor: '#1f1f1f',  // Updated to dark gray
-    color: '#9370DB',  // Light purple text color
-    minHeight: '100vh',  // Full height of the viewport
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',  // Align items at the center horizontally
-  };
-
-  const tableStyle = {
-    borderCollapse: 'collapse',
-    width: '76%',  // Adjust the width as needed (80% - 2% margin on each side)
-    backgroundColor: '#1f1f1f',  // Updated to dark gray
-    margin: '2%',  // Added 2% margin
-  };
-
-  const thStyle = {
-    border: '1px solid #ddd',
-    padding: '12px',  // Increased padding
-    textAlign: 'left',
-    backgroundColor: '#1f1f1f',  // Updated to dark gray
-    fontSize: 'calc(3vh + 1vw)',  // Dynamic font size that fills about 3/4th of the page
-    fontWeight: 'bold',  // Added bold font weight
-    color: '#9370DB',  // Purple text color
-  };
-
-  const tdStyle = {
-    border: '1px solid #ddd',
-    padding: '8px',
-    textAlign: 'left',
-    backgroundColor: '#1f1f1f',  // Updated to dark gray
-    fontSize: 'calc(2vh + 1vw)',  // Dynamic font size for table contents
-    color: '#9370DB',  // Purple text color
-  };
 
   const {
     getTableProps,
@@ -69,44 +56,35 @@ const Sos = () => {
   } = useTable({ columns, data: sosData });
 
   return (
-    <div style={pageStyle}>
-      <table {...getTableProps()} style={tableStyle}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()} style={thStyle}>{column.render('Header')}</th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()} style={tdStyle}>{cell.render('Cell')}</td>;
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <div>
+    <Navbar />
+      <Box minHeight="100vh" display="flex" flexDirection="column" alignItems="center" p="2rem">
+        <Table {...getTableProps()} variant="simple" size="md" colorScheme="purple">
+          <Thead>
+            {headerGroups.map(headerGroup => (
+              <Tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <Th {...column.getHeaderProps()}>{column.render('Header')}</Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {rows.map(row => {
+              prepareRow(row);
+              return (
+                <Tr {...row.getRowProps()}>
+                  {row.cells.map(cell => (
+                    <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+                  ))}
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </Box>
     </div>
   );
 };
 
 export default Sos;
-
-
-
-
-
-
-
-
-
-
-
-

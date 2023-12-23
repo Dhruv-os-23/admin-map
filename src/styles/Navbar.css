@@ -1,0 +1,62 @@
+/* Navbar.css */
+
+/* Style for the entire Navbar container */
+nav {
+    background-color: #333;
+    /* Dark background for the navbar */
+    color: white;
+    /* White text color */
+    padding: 0.5rem 1rem;
+    /* Padding around the navbar content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Shadow for depth */
+}
+
+/* Style for the links container */
+nav div {
+    display: flex;
+    /* Align links in a row */
+    justify-content: start;
+    /* Align links to the start */
+    align-items: center;
+    /* Center links vertically */
+}
+
+/* Style for individual links */
+nav div a {
+    color: white;
+    /* White text color for links */
+    text-decoration: none;
+    /* Remove underline from links */
+    padding: 0.5rem 1rem;
+    /* Padding around links for easier clicking */
+    margin-right: 1rem;
+    /* Space between links */
+    font-size: 1rem;
+    /* Font size for links */
+    font-weight: 500;
+    /* Medium font weight for links */
+}
+
+nav div a:hover,
+nav div a:focus {
+    color: #ddd;
+    /* Lighter color on hover/focus */
+    text-decoration: underline;
+    /* Underline on hover/focus */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    nav div {
+        flex-direction: column;
+        /* Stack links vertically on small screens */
+        align-items: flex-start;
+        /* Align items to the start */
+    }
+
+    nav div a {
+        margin-bottom: 0.5rem;
+        /* Space between stacked links */
+    }
+}
